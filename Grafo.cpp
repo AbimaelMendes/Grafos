@@ -110,7 +110,7 @@ void Grafo::valida_qtd_arestas(int num_vertices,int num_arestas) {
     }
 }
 
-void Grafo::busca_larg(int v, int distancia[]) {
+std::vector<int> Grafo::busca_larg(int v) {
     // Criacao e inicializacao do vetor marcado
     // Inicializacao dos vetores pai e dist
 
@@ -118,6 +118,7 @@ void Grafo::busca_larg(int v, int distancia[]) {
 
     vector<int> marcado(num_vertices_, 0);
     marcado[v] = 1;
+    vector<int> distancia(num_vertices_, 0);
     distancia[v] = 0;
 
     fila.push(v);
@@ -138,4 +139,21 @@ void Grafo::busca_larg(int v, int distancia[]) {
             }
         }
     }
+
+    return distancia;
 }
+
+    void Grafo::nao_recebem_mensagem(int origem, int saltos) {
+        cout << origem << " " << saltos << ":";
+
+        std::vector<int> distancia = this->busca_larg(origem);
+        for (int i = 0; i < distancia.size(); i++)
+        {
+            int no = i;
+            if (distancia[no] > saltos) {
+                cout << no << " ";
+            }
+        }
+        cout << endl;
+    }
+

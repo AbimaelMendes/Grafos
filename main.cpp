@@ -48,7 +48,7 @@ int main() {
             cout << "Informe o no de origem e quantidade de saltos, separados por espaco: ";
             int origem, saltos;
             cin >> origem >> saltos;
-
+            rede.nao_recebem_mensagem(origem, saltos);
         }
     }
     catch (const exception &e) {
