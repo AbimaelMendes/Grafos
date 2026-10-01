@@ -1,0 +1,10 @@
+services:
+  workspace:
+    image: katorlys/workspace-c:2026.6.18
+    container_name: workspace-c
+    working_dir: /workspace
+    user: root
+    volumes:
+      - ./:/workspace
+    stdin_open: true
+    tty: true
