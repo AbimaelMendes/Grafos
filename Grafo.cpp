@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <string>
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -106,5 +107,35 @@ void Grafo::valida_qtd_arestas(int num_vertices,int num_arestas) {
             "a quantidade de arestas " + to_string(num_arestas) + " eh "
             "invalida! O numero maximo de arestas para um grafo com "
             + to_string(num_vertices) + " vertices eh " + to_string(max_arestas));
+    }
+}
+
+void Grafo::busca_larg(int v, int distancia[]) {
+    // Criacao e inicializacao do vetor marcado
+    // Inicializacao dos vetores pai e dist
+
+    queue<int> fila;
+
+    vector<int> marcado(num_vertices_, 0);
+    marcado[v] = 1;
+    distancia[v] = 0;
+
+    fila.push(v);
+
+    while (!fila.empty()) {
+        int w = fila.front();
+        fila.pop();
+
+        printf("%d\n", w);
+
+        for (int u = 0; u < num_vertices_; u++) {
+            if (matriz_adj_[w][u] != 0) {
+                if (marcado[u] == 0) {
+                    marcado[u] = 1;
+                    distancia[u] = distancia[w] + 1;
+                    fila.push(u);
+                }
+            }
+        }
     }
 }

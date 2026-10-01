@@ -34,6 +34,7 @@ private:
     void valida_vertice(int v);
     void valida_aresta(Aresta e);
     void valida_qtd_arestas(int num_vertices,int num_arestas);
+    void busca_larg(int v, int distancia[]);
 };
 
 #endif /* GRAFO_H */
