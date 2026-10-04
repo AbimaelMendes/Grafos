@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
@@ -110,15 +111,14 @@ void Grafo::valida_qtd_arestas(int num_vertices,int num_arestas) {
     }
 }
 
-std::vector<int> Grafo::busca_larg(int v) {
+void Grafo::busca_larg(int v, std::vector<int> &distancia) {
     // Criacao e inicializacao do vetor marcado
     // Inicializacao dos vetores pai e dist
+    vector<int> marcado(num_vertices_, 0);
 
     queue<int> fila;
 
-    vector<int> marcado(num_vertices_, 0);
     marcado[v] = 1;
-    vector<int> distancia(num_vertices_, 0);
     distancia[v] = 0;
 
     fila.push(v);
@@ -126,8 +126,6 @@ std::vector<int> Grafo::busca_larg(int v) {
     while (!fila.empty()) {
         int w = fila.front();
         fila.pop();
-
-        printf("%d\n", w);
 
         for (int u = 0; u < num_vertices_; u++) {
             if (matriz_adj_[w][u] != 0) {
@@ -139,21 +137,23 @@ std::vector<int> Grafo::busca_larg(int v) {
             }
         }
     }
-
-    return distancia;
 }
 
-    void Grafo::nao_recebem_mensagem(int origem, int saltos) {
-        cout << origem << " " << saltos << ":";
+std::vector<int> Grafo::nao_recebem_mensagem(int origem, int saltos) {
+    std::vector<int> distancia(num_vertices_, 0);
+    this->busca_larg(origem, distancia);
 
-        std::vector<int> distancia = this->busca_larg(origem);
-        for (int i = 0; i < distancia.size(); i++)
-        {
-            int no = i;
-            if (distancia[no] > saltos) {
-                cout << no << " ";
-            }
+    std::vector<int> nao_alcancados;
+
+    for (int i = 0; i < num_vertices_; i++)
+    {
+        int no = i;
+        // Verifica se o nó não é o nó de origem e se a distância é maior que o número de saltos ou se a distância é zero (não alcançado)
+        if (no != origem && (distancia[no] > saltos || distancia[no] == 0)) {
+            nao_alcancados.push_back(no);
         }
-        cout << endl;
     }
+
+    return nao_alcancados;
+}
 

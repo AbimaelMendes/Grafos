@@ -6,12 +6,28 @@
 
 using namespace std;
 
+struct ResultadoRodada {
+    int origem;
+    int saltos;
+    std::vector<int> nos;
+};
+
 void print_exception(const exception &e, int level = 0) {
     cerr << "exception: " << string(level, ' ') << e.what() << "\n";
     try {
         rethrow_if_nested(e);
     } catch(const std::exception& nested_exception) {
         print_exception(nested_exception, (level + 2));
+    }
+}
+
+void print_resultados(const std::vector<ResultadoRodada> &resultados) {
+    for (const auto &resultado : resultados) {
+        cout << resultado.origem << " " << resultado.saltos << ": ";
+        for (int no : resultado.nos) {
+            cout << no << " ";
+        }
+        cout << endl;
     }
 }
 
@@ -43,13 +59,26 @@ int main() {
         int rodadas;
         cin >> rodadas;
         
+        //Estrutura para armazenar os resultados de cada rodada
+        std::vector<ResultadoRodada> resultados;
+
         for (int i = 0; i < rodadas; i++)
         {
             cout << "Informe o no de origem e quantidade de saltos, separados por espaco: ";
             int origem, saltos;
             cin >> origem >> saltos;
-            rede.nao_recebem_mensagem(origem, saltos);
+
+            ResultadoRodada resultado;
+            resultado.origem = origem;
+            resultado.saltos = saltos;
+            
+            //Obtendo os nós que não recebem a mensagem a partir do nó de origem e do número de saltos
+            resultado.nos = rede.nao_recebem_mensagem(origem, saltos);
+            resultados.push_back(resultado);
         }
+
+        //Imprimindo os resultados de todas as rodadas
+        print_resultados(resultados);
     }
     catch (const exception &e) {
         print_exception(e);

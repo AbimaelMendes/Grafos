@@ -24,7 +24,7 @@ public:
     void remove_aresta(Aresta e);
 
     void imprime();
-    void nao_recebem_mensagem(int origem, int saltos);
+    std::vector<int> nao_recebem_mensagem(int origem, int saltos);
 
 private:
     int num_vertices_;
@@ -34,7 +34,7 @@ private:
     void valida_vertice(int v);
     void valida_aresta(Aresta e);
     void valida_qtd_arestas(int num_vertices,int num_arestas);
-    std::vector<int> busca_larg(int v);
+    void busca_larg(int v, std::vector<int> &distancia);
 };
 
 #endif /* GRAFO_H */
